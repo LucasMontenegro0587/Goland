@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generador de Contraseñas</title>
+    <title>Generador de Contraseñas y Chatbot</title>
     <script>
         async function generatePassword() {
             const length = document.getElementById("length").value;
@@ -39,6 +39,34 @@
                 alert("Error al conectar con el servidor: " + error);
             }
         }
+
+        async function sendMessageToChatbot() {
+            const message = document.getElementById("userMessage").value;
+            if (message.trim() === "") {
+                alert("Por favor, escribí un mensaje.");
+                return;
+            }
+
+            const requestData = {
+                message: message
+            };
+
+            try {
+                const response = await fetch("http://localhost:8080/chatbot", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                const data = await response.json();
+                document.getElementById("chatHistory").innerHTML += `<p><strong>Tu:</strong> ${message}</p>`;
+                document.getElementById("chatHistory").innerHTML += `<p><strong>Chatbot:</strong> ${data.response}</p>`;
+                document.getElementById("userMessage").value = "";
+            } catch (error) {
+                alert("Error al conectar con el chatbot: " + error);
+            }
+        }
     </script>
 </head>
 <body>
@@ -56,5 +84,12 @@
     <br><br>
     <button onclick="generatePassword()">Generar Contraseña</button>
     <p id="password"></p>
+
+    <h2>Chatbot - I-Bot</h2>
+    <div id="chatHistory" style="border: 1px solid #ccc; padding: 10px; height: 200px; overflow-y: auto;">
+        <!-- Aquí se mostrarán los mensajes -->
+    </div>
+    <input type="text" id="userMessage" placeholder="Escribí tu mensaje..." style="width: 80%;">
+    <button onclick="sendMessageToChatbot()">Enviar</button>
 </body>
 </html>
