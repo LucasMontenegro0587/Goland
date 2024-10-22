@@ -38,29 +38,35 @@ function showChatbot(input string) string {
     // Función para procesar la entrada del usuario
     input = strings.ToLower(input)
     switch input {
-        case "hola":
+        case "Hola", "hola":
             return "¡Hola! ¿Cómo te llamás?";
-        case "¿cómo te llamás?", "quién sos":
-            return "Mi nombre es I-Bot, podés llamarme como prefieras.";
-        case "¿qué hora es?", "qué hora es en este momento?":
+        case "¿Cómo te llamás?", "¿cómo te llamás?", "¿Quién sos?", "¿quién sos?":
+            return "Mi nombre es I-Bot, pero podés llamarme como prefieras.";
+        case "¿Qué hora es?", "¿qué hora es?", "¿Qué hora es en este momento?", "¿qué hora es en este momento?":
             return obtenerHoraActual();
-        case "adiós":
+        case "Adiós", "adiós":
             return "¡Hasta luego y gracias por dejarme ayudarte!";
-        case "ayuda":
-            return "Podés preguntarme: '¿Cómo te llamás?', '¿Qué hora es?', 'cuéntame un chiste', o simplemente decir 'adiós' para despedirte.";
-        case "cuéntame un chiste", "dime un chiste":
+        case "Ayuda", "ayuda":
+            return "Hablemos, ¿qué necesitás?";
+        case "Contame un chiste", "contame un chiste", "Decime un chiste", "decime un chiste":
             return contarChiste();
-        case "¿cómo estás?", "cómo estás":
+        case "¿Cómo estás?", "¿cómo estás?":
             return "¡Estoy siempre listo para ayudarte! ¿Y vos cómo estás?";
+        case "¿Qué podés hacer?", "¿qué podés hacer?", "¿Qué sabés hacer?", "¿qué sabés hacer?", "¿Cuáles son tus habilidades?", "¿cuáles son tus habilidades?":
+            return "Puedo responder preguntas sobre mí, darte la hora actual, contarte chistes, y más. ¡Preguntame!";
+        case "Dame un consejo", "dame un consejo", "¿Podés darme un consejo?", "¿podés darme un consejo?":
+            return "Siempre recuerda ser amable y paciente, ¡eso te llevará lejos!";
+        case "Contame algo interesante", "contame algo interesante", "Contame un dato curioso", "contame un dato curioso":
+            return "Estoy evolucionando para darte la mejor atención personalizada. Más información próximamente.";
         default:
-            return "No entiendo eso, pero aquí estoy para ayudarte. Escribí 'ayuda' para ver qué cosas puedo hacer.";
+            return "No entiendo eso, pero estoy para ayudarte. Escribí 'Ayuda/ayuda'";
     }
 }
 
 // Función para obtener la hora actual
 func obtenerHoraActual() string {
 	horaActual := time.Now().Format("15:04")
-	return "La hora actual es: " + horaActual
+	return "La hora actual es: " + horaActual.
 }
 
 // Función para contar un chiste simple
