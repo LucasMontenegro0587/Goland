@@ -5,8 +5,23 @@ import (
 	"flag"
 	"fmt"
 	"math/big"
+	"net/http"
+	"strconv"
 	"os"
 )
+
+type PasswordRequest struct {
+	Length     int  `json:"length"`
+	UseLower   bool `json:"useLower"`
+	UseUpper   bool `json:"useUpper"`
+	UseNumbers bool `json:"useNumbers"`
+	UseSymbols bool `json:"useSymbols"`
+}
+
+type PasswordResponse struct {
+	Password string `json:"password"`
+	Error    string `json:"error,omitempty"`
+}
 
 // Función para la generación de una contraseña aleatoria
 func generatePassword(length int, useLower, useUpper, useNumbers, useSymbols bool) (string, error) {
@@ -58,6 +73,28 @@ func generatePassword(length int, useLower, useUpper, useNumbers, useSymbols boo
 	return string(password), nil
 }
 
+// Controlador para manejar la solicitud de generación de contraseñas
+func passwordHandler(w http.ResponseWriter, r *http.Request) {
+	var req PasswordRequest
+
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		http.Error(w, "Solicitud inválida", http.StatusBadRequest)
+		return
+	}
+
+	password, err := generatePassword(req.Length, req.UseLower, req.UseUpper, req.UseNumbers, req.UseSymbols)
+	resp := PasswordResponse{
+		Password: password,
+	}
+
+	if err != nil {
+		resp.Error = err.Error()
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(resp)
+}
+
 func main() {
 	// Definición y parseo de los flags para las opciones de línea de comandos
 	length := flag.Int("length", 12, "Longitud de la contraseña")
@@ -82,4 +119,8 @@ func main() {
 	}
 
 	fmt.Println("Contraseña generada:", password)
+
+	http.HandleFunc("/generate-password", passwordHandler)
+	fmt.Println("Servidor en ejecución en http://localhost:8080")
+	http.ListenAndServe(":8080", nil)
 }
