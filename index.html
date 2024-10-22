@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Contraseñas</title>
+    <script>
+        async function generatePassword() {
+            const length = document.getElementById("length").value;
+            const useLower = document.getElementById("useLower").checked;
+            const useUpper = document.getElementById("useUpper").checked;
+            const useNumbers = document.getElementById("useNumbers").checked;
+            const useSymbols = document.getElementById("useSymbols").checked;
+
+            const requestData = {
+                length: parseInt(length, 10),
+                useLower: useLower,
+                useUpper: useUpper,
+                useNumbers: useNumbers,
+                useSymbols: useSymbols
+            };
+
+            try {
+                const response = await fetch("http://localhost:8080/generate-password", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(requestData)
+                });
+                const data = await response.json();
+
+                if (data.error) {
+                    alert("Error: " + data.error);
+                } else {
+                    document.getElementById("password").innerText = "Contraseña generada: " + data.password;
+                }
+            } catch (error) {
+                alert("Error al conectar con el servidor: " + error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Generador de Contraseñas</h1>
+    <label for="length">Longitud de la contraseña:</label>
+    <input type="number" id="length" value="12" min="1" required>
+    <br>
+    <label><input type="checkbox" id="useLower" checked> Incluir letras minúsculas</label>
+    <br>
+    <label><input type="checkbox" id="useUpper" checked> Incluir letras mayúsculas</label>
+    <br>
+    <label><input type="checkbox" id="useNumbers" checked> Incluir números</label>
+    <br>
+    <label><input type="checkbox" id="useSymbols" checked> Incluir símbolos</label>
+    <br><br>
+    <button onclick="generatePassword()">Generar Contraseña</button>
+    <p id="password"></p>
+</body>
+</html>
