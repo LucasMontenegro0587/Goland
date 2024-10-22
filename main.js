@@ -5,6 +5,14 @@ async function generatePassword() {
     const useNumbers = document.getElementById("useNumbers").checked;
     const useSymbols = document.getElementById("useSymbols").checked;
 
+    // Agrega un log para verificar los valores obtenidos
+    console.log("Valores obtenidos:");
+    console.log("Longitud:", length);
+    console.log("Incluir minúsculas:", useLower);
+    console.log("Incluir mayúsculas:", useUpper);
+    console.log("Incluir números:", useNumbers);
+    console.log("Incluir símbolos:", useSymbols);
+
     const requestData = {
         length: parseInt(length, 10),
         useLower: useLower,
