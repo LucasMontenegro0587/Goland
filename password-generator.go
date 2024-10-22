@@ -10,6 +10,7 @@ import (
 	"os"
 )
 
+// Estructuras para la solicitud y respuesta de la API
 type PasswordRequest struct {
 	Length     int  `json:"length"`
 	UseLower   bool `json:"useLower"`
@@ -73,15 +74,23 @@ func generatePassword(length int, useLower, useUpper, useNumbers, useSymbols boo
 	return string(password), nil
 }
 
-// Controlador para manejar la solicitud de generación de contraseñas
+// Controlador para manejar la solicitud de generación de contraseñas vía HTTP
 func passwordHandler(w http.ResponseWriter, r *http.Request) {
 	var req PasswordRequest
 
+	// Decodificación de la solicitud JSON
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 		http.Error(w, "Solicitud inválida", http.StatusBadRequest)
 		return
 	}
 
+	// Validación de la longitud de la contraseña solicitada
+	if req.Length <= 0 {
+		http.Error(w, "La longitud de la contraseña debe ser mayor a 0", http.StatusBadRequest)
+		return
+	}
+
+	// Generación de la contraseña y preparación de la respuesta
 	password, err := generatePassword(req.Length, req.UseLower, req.UseUpper, req.UseNumbers, req.UseSymbols)
 	resp := PasswordResponse{
 		Password: password,
@@ -93,6 +102,16 @@ func passwordHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(resp)
+}
+
+// Función para inicializar el servidor HTTP
+func startServer() {
+	http.HandleFunc("/generate-password", passwordHandler)
+	fmt.Println("Servidor en ejecución en http://localhost:8080")
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		fmt.Println("Error al iniciar el servidor:", err)
+		os.Exit(1)
+	}
 }
 
 func main() {
@@ -111,7 +130,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Generación de la contraseña
+	// Generación de la contraseña desde la línea de comandos
 	password, err := generatePassword(*length, *useLower, *useUpper, *useNumbers, *useSymbols)
 	if err != nil {
 		fmt.Println("Error al generar la contraseña:", err)
@@ -120,7 +139,6 @@ func main() {
 
 	fmt.Println("Contraseña generada:", password)
 
-	http.HandleFunc("/generate-password", passwordHandler)
-	fmt.Println("Servidor en ejecución en http://localhost:8080")
-	http.ListenAndServe(":8080", nil)
+	// Iniciar el servidor HTTP
+	startServer()
 }
