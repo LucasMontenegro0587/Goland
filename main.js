@@ -33,7 +33,7 @@ async function generatePassword() {
     }
 }
 
-function showChatbot() string {
+function showChatbot() {
     document.getElementById("chatbot-section").style.display = "block";
     // Función para procesar la entrada del usuario
     input = strings.ToLower(input)
