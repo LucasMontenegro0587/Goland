@@ -23,14 +23,14 @@
     <p id="password"></p>
 
     <h2>ChatBot</h2>
-    <img src="chatbot-icon.png" alt="Abrir ChatBot" onclick="showChatbot()" style="cursor: pointer; width: 100px;">
+    <img src="chatbot-icon.png" alt="Abrir ChatBot" onclick="showChatbot(onclick)" style="cursor: pointer; width: 100px;">
     <div id="chatbot-section">
         <div id="chatbot-container">
             <!-- Acá se va a mostrar la conversación -->
             <p><strong>I-Bot:</strong> ¡Hola! Soy I-Bot, tu ChatBot acompañante. ¿Cómo te puedo ayudar?</p>
         </div>
         <input type="text" id="userMessage" placeholder="Escribí tu mensaje..." style="width: 80%;">
-        <button onclick="sendMessageToChatbot()">Enviar</button>
+        <button onclick="sendMessageToChatbot(onclick)">Enviar</button>
     </div>
 <script src="main.js"></script>
 </body>
