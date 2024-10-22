@@ -33,6 +33,10 @@ async function generatePassword() {
     }
 }
 
+function showChatbot() {
+            document.getElementById("chatbot-section").style.display = "block";
+        }
+
 async function sendMessageToChatbot() {
     const message = document.getElementById("userMessage").value;
     if (message.trim() === "") {
