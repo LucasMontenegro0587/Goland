@@ -1,4 +1,4 @@
-async function generatePassword() {
+window.generatePassword async function generatePassword() {
     const length = document.getElementById("length").value;
     const useLower = document.getElementById("useLower").checked;
     const useUpper = document.getElementById("useUpper").checked;
