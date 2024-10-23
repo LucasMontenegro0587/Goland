@@ -22,7 +22,7 @@ window.generatePassword async function generatePassword() {
     };
 
     try {
-        const response = await fetch("http://localhost:8080/generate-password", {
+        const response = await fetch("http://localhost:4200/generate-password", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
