@@ -41,10 +41,11 @@ window.generatePassword = async function generatePassword() {
     }
 };
 
-function showChatbot() string {
+function showChatbot() {
     document.getElementById("chatbot-section").style.display = "block";
     // Función para procesar la entrada del usuario
-    input = strings.ToLower(input)
+    input = input.toLowerCase();
+
     switch input {
         case "Hola", "hola":
             return "¡Hola! ¿Cómo te llamás?";
@@ -69,6 +70,8 @@ function showChatbot() string {
         default:
             return "No entiendo eso, pero estoy para ayudarte. Escribí 'Ayuda/ayuda'";
     }
+    // Simulación de retorno de un string si fuera necesario para indicar que se activó
+    // return "Chatbot activado";
 }
 
 // Función para obtener la hora actual
