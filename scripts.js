@@ -46,7 +46,7 @@ function showChatbot() {
     // Función para procesar la entrada del usuario
     input = input.toLowerCase();
 
-    switch input {
+    switch {
         case "Hola", "hola":
             return "¡Hola! ¿Cómo te llamás?";
         case "¿Cómo te llamás?", "¿cómo te llamás?", "¿Quién sos?", "¿quién sos?":
@@ -75,13 +75,13 @@ function showChatbot() {
 }
 
 // Función para obtener la hora actual
-func obtenerHoraActual() string {
+func obtenerHoraActual() {
 	horaActual := time.Now().Format("15:04")
 	return "La hora actual es: " + horaActual.
 }
 
 // Función para contar un chiste simple
-func contarChiste() string {
+func contarChiste() {
 	return "¿Por qué la computadora fue al médico? Porque tenía un virus... ¡Jajaja!"
 }
 
